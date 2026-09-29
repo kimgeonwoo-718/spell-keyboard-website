@@ -2,17 +2,18 @@
   "use strict";
 
   const config = Object.assign(
-    { githubRepo: "", downloadUrl: "", version: "", fileSize: "", releaseDate: "" },
+    { githubRepo: "", downloadUrl: "", version: "", fileSize: "", releaseDate: "", phoneAppUrl: "" },
     window.SITE_CONFIG
   );
 
+  const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ───────── 토스트 ───────── */
 
-  const toastEl = document.querySelector("[data-toast]");
+  const toastEl = $("[data-toast]");
   let toastTimer;
 
   function showToast(message) {
@@ -35,6 +36,7 @@
 
   function formatSize(bytes) {
     const mb = bytes / (1024 * 1024);
+    if (mb >= 100) return `${Math.round(mb)}MB`;
     return mb >= 1 ? `${mb.toFixed(1)}MB` : `${Math.max(1, Math.round(bytes / 1024))}KB`;
   }
 
@@ -73,7 +75,10 @@
     }
     setText("[data-version]", info.version);
     setText("[data-size]", info.size);
-    setText("[data-date]", info.date);
+    if (info.date) {
+      setText("[data-date]", info.date);
+      $$("[data-date-wrap]").forEach((el) => (el.hidden = false));
+    }
     if (info.url) {
       $$("[data-download]").forEach((a) => (a.href = info.url));
     }
@@ -87,82 +92,159 @@
       if (info.url) {
         window.location.href = info.url;
       } else {
-        showToast("설치 파일을 준비하고 있어요. 곧 공개됩니다!");
+        showToast("설치 파일을 준비하고 있어요. 곧 공개할게요!");
       }
     });
   });
+
+  if (config.phoneAppUrl) {
+    $$("[data-phone-app]").forEach((a) => {
+      a.href = config.phoneAppUrl;
+      a.hidden = false;
+    });
+  }
 
   /* ───────── Windows가 아닌 기기 안내 ───────── */
 
   const platform = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.userAgent;
   if (!/win/i.test(platform)) {
-    const note = document.querySelector("[data-os-note]");
+    const note = $("[data-os-note]");
     if (note) note.hidden = false;
   }
 
   setText("[data-year]", String(new Date().getFullYear()));
 
-  /* ───────── 히어로 교정 데모 ───────── */
+  /* ───────── 번역 언어 탭 ───────── */
 
-  const demo = document.querySelector("[data-demo]");
-  const keys = $$("[data-demo-keys] kbd");
-  const result = document.querySelector("[data-demo-result]");
-  const fixes = $$("[data-demo] .fix");
+  const tabs = $$("[data-lang-tab]");
 
-  function resetDemo() {
-    demo.classList.remove("is-selected", "is-done");
-    fixes.forEach((el) => {
-      el.textContent = el.dataset.wrong;
-      el.classList.remove("is-fixed");
-      el.classList.add("is-wrong");
+  function selectTab(tab) {
+    tabs.forEach((t) => {
+      const selected = t === tab;
+      t.setAttribute("aria-selected", String(selected));
+      t.tabIndex = selected ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !selected;
     });
-    result.textContent = "맞춤법 검사 대기 중";
-    result.classList.remove("is-success");
   }
 
-  function finishDemo() {
-    demo.classList.remove("is-selected");
-    demo.classList.add("is-done");
-    fixes.forEach((el) => {
-      el.textContent = el.dataset.right;
-      el.classList.remove("is-wrong");
-      el.classList.add("is-fixed");
+  tabs.forEach((tab, i) => {
+    tab.addEventListener("click", () => selectTab(tab));
+    tab.addEventListener("keydown", (event) => {
+      const step = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
+      if (!step) return;
+      event.preventDefault();
+      const next = tabs[(i + step + tabs.length) % tabs.length];
+      selectTab(next);
+      next.focus();
     });
-    result.textContent = `✓ ${fixes.length}곳을 고쳤어요`;
-    result.classList.add("is-success");
+  });
+
+  /* ───────── 히어로 데모: 단축키 → 실시간 교정 → Enter로 붙여넣기 ───────── */
+
+  const DEMO_TOKENS = [
+    { wrong: "어의없게도", right: "어이없게도" },
+    " 회의가 ",
+    { wrong: "몇일", right: "며칠" },
+    " ",
+    { wrong: "미뤄졌데요", right: "미뤄졌대요" },
+    ". ",
+    { wrong: "금새", right: "금세" },
+    " 다시 알려 ",
+    { wrong: "드릴께요", right: "드릴게요" },
+    "!",
+  ];
+  const DEMO_RESULT = DEMO_TOKENS.map((t) => (typeof t === "string" ? t : t.right)).join("");
+  const TYPE_MS = 55;
+
+  const keysEl = $("[data-demo-keys]");
+  const popup = $("[data-demo-popup]");
+  const textEl = $("[data-demo-text]");
+  const resultEl = $("[data-demo-result]");
+  const enterEl = $("[data-demo-enter]");
+  const targetEl = $("[data-demo-target]");
+
+  function showKeys(names) {
+    keysEl.innerHTML = names.map((k) => `<kbd>${k}</kbd>`).join("<span>+</span>");
+    keysEl.classList.remove("is-hidden");
+  }
+
+  async function pressKeys() {
+    const keys = Array.from(keysEl.querySelectorAll("kbd"));
+    for (const key of keys) {
+      key.classList.add("is-pressed");
+      await sleep(120);
+    }
+    await sleep(260);
+    keys.forEach((key) => key.classList.remove("is-pressed"));
+  }
+
+  function resetDemo() {
+    popup.classList.remove("is-open");
+    textEl.innerHTML = '<span class="caret" aria-hidden="true"></span>';
+    resultEl.textContent = "실시간 교정 중";
+    resultEl.classList.remove("is-success");
+    enterEl.classList.remove("is-active");
+    targetEl.textContent = "메시지 입력";
+    targetEl.classList.remove("has-text", "is-pasted");
+    showKeys(["Ctrl", "Shift", "Space"]);
+  }
+
+  async function typeInto(node, text) {
+    for (const ch of text) {
+      node.textContent += ch;
+      await sleep(TYPE_MS);
+    }
   }
 
   async function runDemo() {
     for (;;) {
       resetDemo();
-      await sleep(1800);
+      await sleep(1100);
 
-      demo.classList.add("is-selected");
-      await sleep(500);
-
-      for (const key of keys) {
-        key.classList.add("is-pressed");
-        await sleep(140);
-      }
-      result.textContent = "교정 중…";
+      await pressKeys();
+      popup.classList.add("is-open");
+      await sleep(300);
+      keysEl.classList.add("is-hidden");
       await sleep(350);
-      keys.forEach((key) => key.classList.remove("is-pressed"));
-      await sleep(250);
 
-      demo.classList.remove("is-selected");
-      for (const el of fixes) {
-        el.classList.remove("is-wrong");
-        el.classList.add("is-fixed");
-        el.textContent = el.dataset.right;
-        await sleep(170);
+      const caret = textEl.querySelector(".caret");
+      let fixed = 0;
+      for (const token of DEMO_TOKENS) {
+        if (typeof token === "string") {
+          const node = document.createTextNode("");
+          textEl.insertBefore(node, caret);
+          await typeInto(node, token);
+          continue;
+        }
+        const span = document.createElement("span");
+        span.className = "fix";
+        textEl.insertBefore(span, caret);
+        await typeInto(span, token.wrong);
+        span.classList.add("is-wrong");
+        await sleep(380);
+        span.textContent = token.right;
+        span.classList.replace("is-wrong", "is-fixed");
+        fixed += 1;
+        resultEl.textContent = `✓ ${fixed}곳 고침`;
+        resultEl.classList.add("is-success");
+        await sleep(120);
       }
-      finishDemo();
-      await sleep(3600);
+      await sleep(700);
+
+      showKeys(["Enter"]);
+      enterEl.classList.add("is-active");
+      await sleep(350);
+      await pressKeys();
+      popup.classList.remove("is-open");
+      keysEl.classList.add("is-hidden");
+      await sleep(220);
+
+      targetEl.textContent = DEMO_RESULT;
+      targetEl.classList.add("has-text", "is-pasted");
+      await sleep(3400);
     }
   }
 
-  if (demo) {
-    if (reducedMotion) finishDemo();
-    else runDemo();
-  }
+  // 모션 줄이기 설정이면 HTML에 있는 완성 상태를 그대로 보여 줌
+  if (textEl && !reducedMotion) runDemo();
 })();
