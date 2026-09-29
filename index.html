@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spell Keyboard — 어디서든 한 번에 맞춤법 교정</title>
+  <meta name="description" content="메모장, 카카오톡, 브라우저 어디서든 단축키 한 번으로 맞춤법과 띄어쓰기를 교정하는 Windows 프로그램. 무료로 다운로드하세요." />
+  <meta name="theme-color" content="#2f6bff" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Spell Keyboard — 어디서든 한 번에 맞춤법 교정" />
+  <meta property="og:description" content="단축키 한 번으로 맞춤법과 띄어쓰기를 교정하는 Windows 프로그램" />
+  <meta property="og:locale" content="ko_KR" />
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Spell Keyboard 홈">
+        <img src="assets/img/favicon.svg" alt="" width="28" height="28" />
+        <span>Spell Keyboard</span>
+      </a>
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="#features">기능</a>
+        <a href="#how">사용법</a>
+        <a href="#faq">자주 묻는 질문</a>
+      </nav>
+      <a class="btn btn-primary btn-sm" href="#download" data-download>다운로드</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ───────────── Hero ───────────── -->
+    <section class="hero" id="top">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">Windows 10 · 11 무료 프로그램</p>
+          <h1>틀린 맞춤법,<br />쓰던 곳에서<br />바로 고치세요</h1>
+          <p class="lead">
+            메모장, 카카오톡, 브라우저 어디서든.
+            글을 선택하고 단축키 한 번이면 맞춤법과 띄어쓰기가 교정됩니다.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn btn-primary btn-lg" href="#download" data-download>
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.2 10.4 4v7.3H3V5.2Zm8.4-1.4L21 2.4v8.9h-9.6V3.8ZM3 12.7h7.4V20L3 18.8v-6.1Zm8.4 0H21v8.9l-9.6-1.4v-7.5Z"/></svg>
+              Windows용 무료 다운로드
+            </a>
+            <a class="btn btn-ghost btn-lg" href="#features">기능 둘러보기</a>
+          </div>
+          <p class="download-meta" data-download-meta>버전 <span data-version>1.0.0</span> · <span data-size>약 10MB</span> · Windows 10/11 (64비트)</p>
+          <p class="os-note" data-os-note hidden>지금 사용 중인 기기는 Windows가 아니에요. Windows PC에서 다운로드해 주세요.</p>
+        </div>
+
+        <!-- 교정 데모: assets/js/main.js 에서 애니메이션 -->
+        <div class="hero-visual" aria-label="맞춤법 교정 예시">
+          <div class="window">
+            <div class="window-bar">
+              <span class="window-title">메모장 — 제목 없음</span>
+              <span class="window-controls" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <div class="window-body">
+              <p class="demo-text" data-demo><span class="demo-line"><span class="fix is-wrong" data-wrong="어의없게도" data-right="어이없게도">어의없게도</span> 회의가 <span class="fix is-wrong" data-wrong="몇일" data-right="며칠">몇일</span> <span class="fix is-wrong" data-wrong="미뤄졌데요" data-right="미뤄졌대요">미뤄졌데요</span>. <span class="fix is-wrong" data-wrong="금새" data-right="금세">금새</span> 다시 연락 <span class="fix is-wrong" data-wrong="드릴께요" data-right="드릴게요">드릴께요</span>!</span><span class="caret" aria-hidden="true"></span></p>
+            </div>
+            <div class="window-status">
+              <span class="status-keys" data-demo-keys>
+                <kbd>Ctrl</kbd><span>+</span><kbd>Shift</kbd><span>+</span><kbd>K</kbd>
+              </span>
+              <span class="status-result" data-demo-result>맞춤법 검사 대기 중</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────── Features ───────────── -->
+    <!-- TODO: 실제 프로그램 기능에 맞게 문구를 수정하세요 -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">기능</p>
+          <h2>검사기 사이트에 복사·붙여넣기 할 필요 없어요</h2>
+          <p class="section-lead">글을 쓰던 창을 떠나지 않고, 그 자리에서 바로 고칩니다.</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18M8 21h8"/></svg>
+            </div>
+            <h3>모든 프로그램에서</h3>
+            <p>메모장, 워드, 한글, 카카오톡, 크롬 등 글을 입력하는 곳이라면 어디서든 동작합니다.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>
+            </div>
+            <h3>단축키 한 번</h3>
+            <p>고칠 문장을 선택하고 단축키를 누르면 끝. 교정된 문장으로 바로 바뀝니다.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/><path d="m15 17 2 2 4-4"/></svg>
+            </div>
+            <h3>맞춤법 · 띄어쓰기</h3>
+            <p>헷갈리는 맞춤법은 물론 띄어쓰기와 자주 틀리는 표현까지 함께 잡아 줍니다.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+            </div>
+            <h3>가볍고 빠르게</h3>
+            <p>작업 표시줄 트레이에 조용히 머물다가 필요할 때만 깨어납니다. 컴퓨터가 느려지지 않아요.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+            </div>
+            <h3>내 손에 맞게</h3>
+            <p>단축키와 교정 방식을 원하는 대로 바꿀 수 있어요. 윈도우 시작 시 자동 실행도 지원합니다.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+            </div>
+            <h3>완전 무료</h3>
+            <p>광고도, 회원가입도 없습니다. 다운로드해서 바로 쓰세요.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────── Examples ───────────── -->
+    <section class="section section-alt" id="examples">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">이런 실수, 이제 그만</p>
+          <h2>누구나 한 번쯤 틀리는 맞춤법</h2>
+          <p class="section-lead">Spell Keyboard가 알아서 바로잡아 드려요.</p>
+        </div>
+
+        <ul class="example-list">
+          <li><span class="wrong">몇일</span><span class="arrow" aria-label="에서">→</span><span class="right">며칠</span></li>
+          <li><span class="wrong">금새</span><span class="arrow" aria-label="에서">→</span><span class="right">금세</span></li>
+          <li><span class="wrong">어의없다</span><span class="arrow" aria-label="에서">→</span><span class="right">어이없다</span></li>
+          <li><span class="wrong">할께요</span><span class="arrow" aria-label="에서">→</span><span class="right">할게요</span></li>
+          <li><span class="wrong">안되요</span><span class="arrow" aria-label="에서">→</span><span class="right">안 돼요</span></li>
+          <li><span class="wrong">왠일이야</span><span class="arrow" aria-label="에서">→</span><span class="right">웬일이야</span></li>
+          <li><span class="wrong">설겆이</span><span class="arrow" aria-label="에서">→</span><span class="right">설거지</span></li>
+          <li><span class="wrong">오랫만에</span><span class="arrow" aria-label="에서">→</span><span class="right">오랜만에</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ───────────── How to ───────────── -->
+    <section class="section" id="how">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">사용법</p>
+          <h2>1분이면 시작할 수 있어요</h2>
+        </div>
+
+        <ol class="steps">
+          <li class="step">
+            <span class="step-num">1</span>
+            <h3>다운로드 후 설치</h3>
+            <p>아래 버튼으로 설치 파일을 받아 실행하세요. 설치는 몇 초면 끝납니다.</p>
+          </li>
+          <li class="step">
+            <span class="step-num">2</span>
+            <h3>트레이에서 대기</h3>
+            <p>실행하면 화면 오른쪽 아래 트레이에 아이콘이 생기고, 조용히 대기합니다.</p>
+          </li>
+          <li class="step">
+            <span class="step-num">3</span>
+            <h3>선택하고 단축키</h3>
+            <p>고칠 문장을 드래그하고 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd>를 누르면 교정된 문장으로 바뀝니다.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ───────────── Download ───────────── -->
+    <section class="section" id="download">
+      <div class="container">
+        <div class="download-card">
+          <div class="download-copy">
+            <h2>지금 바로 무료로 시작하세요</h2>
+            <p>설치 파일 하나면 충분합니다.</p>
+            <a class="btn btn-light btn-lg" href="#download" data-download>
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.2 10.4 4v7.3H3V5.2Zm8.4-1.4L21 2.4v8.9h-9.6V3.8ZM3 12.7h7.4V20L3 18.8v-6.1Zm8.4 0H21v8.9l-9.6-1.4v-7.5Z"/></svg>
+              Windows용 다운로드
+            </a>
+            <p class="download-meta">버전 <span data-version>1.0.0</span> · <span data-size>약 10MB</span> · <span data-date>2026-09-29</span> 업데이트</p>
+          </div>
+          <dl class="spec-list">
+            <div><dt>운영체제</dt><dd>Windows 10, 11 (64비트)</dd></div>
+            <div><dt>디스크 공간</dt><dd>50MB 이상</dd></div>
+            <div><dt>인터넷</dt><dd>맞춤법 검사 시 필요</dd></div>
+            <div><dt>가격</dt><dd>무료</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────── FAQ ───────────── -->
+    <section class="section section-alt" id="faq">
+      <div class="container container-narrow">
+        <div class="section-head">
+          <p class="eyebrow">FAQ</p>
+          <h2>자주 묻는 질문</h2>
+        </div>
+
+        <div class="faq-list">
+          <details>
+            <summary>정말 무료인가요?</summary>
+            <p>네, 모든 기능을 무료로 사용할 수 있습니다. 회원가입이나 결제 없이 다운로드해서 바로 쓰시면 됩니다.</p>
+          </details>
+          <details>
+            <summary>설치할 때 "Windows의 PC 보호" 창이 떠요.</summary>
+            <p>
+              새로 배포된 프로그램이라 Windows가 아직 충분한 설치 기록을 확인하지 못해 뜨는 안내입니다.
+              창에서 <strong>추가 정보</strong>를 누른 뒤 <strong>실행</strong>을 누르면 설치가 진행됩니다.
+            </p>
+          </details>
+          <details>
+            <summary>어떤 프로그램에서 사용할 수 있나요?</summary>
+            <p>글자를 입력하고 선택할 수 있는 곳이라면 대부분 사용할 수 있습니다. 메모장, 워드, 한글, 카카오톡, 웹 브라우저 등에서 동작합니다.</p>
+          </details>
+          <details>
+            <summary>단축키를 바꿀 수 있나요?</summary>
+            <p>트레이 아이콘을 오른쪽 클릭해 <strong>설정</strong>을 열면 원하는 단축키로 바꿀 수 있습니다.</p>
+          </details>
+          <details>
+            <summary>프로그램을 삭제하려면 어떻게 하나요?</summary>
+            <p>Windows <strong>설정 → 앱 → 설치된 앱</strong>에서 Spell Keyboard를 찾아 <strong>제거</strong>를 누르면 됩니다.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="brand brand-muted">
+        <img src="assets/img/favicon.svg" alt="" width="22" height="22" />
+        <span>Spell Keyboard</span>
+      </div>
+      <p>&copy; <span data-year>2026</span> Spell Keyboard. All rights reserved.</p>
+      <a href="https://github.com/kimgeonwoo-718/spell-keyboard-website/issues" target="_blank" rel="noopener">문의 · 버그 제보</a>
+    </div>
+  </footer>
+
+  <div class="toast" role="status" aria-live="polite" data-toast hidden></div>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
