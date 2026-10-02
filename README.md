@@ -9,7 +9,7 @@ Windows 프로그램 **백점맞춤**의 소개 및 다운로드 페이지입니
 ```
 index.html             페이지 본문 (문구 수정은 여기서)
 assets/css/style.css   디자인 (색상은 맨 위 :root 변수에서 변경)
-assets/js/config.js    다운로드 설정 — 새 버전 배포 시 여기만 수정
+assets/js/config.js    Microsoft Store 제품 ID · 폰 앱 주소
 assets/js/main.js      다운로드 버튼 · 히어로 데모 애니메이션 · 번역 탭
 assets/img/favicon.svg 로고 / 파비콘
 ```
@@ -22,16 +22,12 @@ python3 -m http.server 8000
 
 브라우저에서 http://localhost:8000 을 열면 됩니다.
 
-## 다운로드 파일 연결하기
+## Microsoft Store 연결하기
 
-`assets/js/config.js`에서 둘 중 하나를 설정하세요.
+백점맞춤은 Microsoft Store로 배포합니다. `assets/js/config.js`의 `storeId`에 Store 제품 ID(예: `9NXXXXXXXXXX`)를 넣으면
+모든 다운로드 버튼이 `https://apps.microsoft.com/detail/<제품 ID>`로 연결되고, Windows에서는 Microsoft Store 앱이 바로 열립니다.
 
-1. **GitHub Releases (추천)** — 프로그램 저장소에서 Release를 만들고 설치 파일(`.exe` 또는 `.msi`)을 첨부한 뒤
-   `githubRepo: "계정/저장소"`를 입력하면, 최신 릴리스의 파일·버전·용량·날짜가 자동으로 표시됩니다.
-   새 버전을 낼 때 웹사이트는 수정할 필요가 없습니다.
-2. **직접 링크** — `downloadUrl`에 설치 파일 주소를 넣고 `version`, `fileSize`, `releaseDate`도 함께 수정하세요.
-
-아무것도 설정하지 않으면 다운로드 버튼을 눌렀을 때 "준비 중" 안내가 뜹니다.
+비워 두면 다운로드 버튼을 눌렀을 때 "준비 중" 안내가 뜹니다.
 
 `phoneAppUrl`에 폰 앱 스토어 주소를 넣으면 다운로드 영역에 "폰 앱 받기" 버튼이 나타납니다.
 
@@ -43,8 +39,7 @@ python3 -m http.server 8000
 
 ## 남은 할 일
 
-- [ ] 설치 파일 연결 (`config.js`의 `githubRepo` 또는 `downloadUrl`)
-- [ ] 실제 버전 번호 확인 (지금은 1.0.0으로 표시)
+- [ ] Microsoft Store 제품 ID 연결 (`config.js`의 `storeId`)
 - [ ] 폰 앱 스토어 주소 연결 (`config.js`의 `phoneAppUrl`)
 - [ ] 개인정보처리방침 페이지 — 구글 계정 로그인과 AI 기능(서버 전송)이 있으므로 필요
 - [ ] 문의 방법 확정 (지금은 푸터의 "문의 · 버그 제보"가 이 저장소의 GitHub Issues로 연결)

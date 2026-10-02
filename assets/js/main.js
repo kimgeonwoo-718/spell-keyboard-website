@@ -1,10 +1,7 @@
 (() => {
   "use strict";
 
-  const config = Object.assign(
-    { githubRepo: "", downloadUrl: "", version: "", fileSize: "", releaseDate: "", phoneAppUrl: "" },
-    window.SITE_CONFIG
-  );
+  const config = Object.assign({ storeId: "", phoneAppUrl: "" }, window.SITE_CONFIG);
 
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
@@ -27,73 +24,26 @@
     }, 3200);
   }
 
-  /* ───────── 다운로드 정보 ───────── */
+  /* ───────── 다운로드 (Microsoft Store) ───────── */
 
   function setText(selector, value) {
     if (!value) return;
     $$(selector).forEach((el) => (el.textContent = value));
   }
 
-  function formatSize(bytes) {
-    const mb = bytes / (1024 * 1024);
-    if (mb >= 100) return `${Math.round(mb)}MB`;
-    return mb >= 1 ? `${mb.toFixed(1)}MB` : `${Math.max(1, Math.round(bytes / 1024))}KB`;
-  }
-
-  async function fetchLatestRelease(repo) {
-    const res = await fetch(`https://api.github.com/repos/${repo}/releases/latest`, {
-      headers: { Accept: "application/vnd.github+json" },
-    });
-    if (!res.ok) throw new Error(`GitHub API ${res.status}`);
-    const release = await res.json();
-    const asset =
-      release.assets.find((a) => /\.exe$/i.test(a.name)) ||
-      release.assets.find((a) => /\.msi$/i.test(a.name)) ||
-      release.assets.find((a) => /\.zip$/i.test(a.name));
-    if (!asset) throw new Error("릴리스에 설치 파일이 없습니다");
-    return {
-      url: asset.browser_download_url,
-      version: release.tag_name.replace(/^v/i, ""),
-      size: formatSize(asset.size),
-      date: (release.published_at || "").slice(0, 10),
-    };
-  }
-
-  const downloadInfo = (async () => {
-    let info = {
-      url: config.downloadUrl,
-      version: config.version,
-      size: config.fileSize,
-      date: config.releaseDate,
-    };
-    if (config.githubRepo) {
-      try {
-        info = await fetchLatestRelease(config.githubRepo);
-      } catch (err) {
-        console.warn("최신 릴리스 정보를 가져오지 못했습니다:", err);
-      }
-    }
-    setText("[data-version]", info.version);
-    setText("[data-size]", info.size);
-    if (info.date) {
-      setText("[data-date]", info.date);
-      $$("[data-date-wrap]").forEach((el) => (el.hidden = false));
-    }
-    if (info.url) {
-      $$("[data-download]").forEach((a) => (a.href = info.url));
-    }
-    return info;
-  })();
+  // mode=direct: Windows에서 누르면 웹 페이지 대신 Microsoft Store 앱이 바로 열림
+  const storeUrl = config.storeId
+    ? `https://apps.microsoft.com/detail/${encodeURIComponent(config.storeId)}?referrer=appbadge&mode=direct`
+    : "";
 
   $$("[data-download]").forEach((link) => {
-    link.addEventListener("click", async (event) => {
+    if (storeUrl) {
+      link.href = storeUrl;
+      return;
+    }
+    link.addEventListener("click", (event) => {
       event.preventDefault();
-      const info = await downloadInfo;
-      if (info.url) {
-        window.location.href = info.url;
-      } else {
-        showToast("설치 파일을 준비하고 있어요. 곧 공개할게요!");
-      }
+      showToast("Microsoft Store 출시를 준비하고 있어요. 곧 만나요!");
     });
   });
 
